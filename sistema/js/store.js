@@ -1,239 +1,43 @@
 // MONTAXX ERP - Armazenamento Central de Dados (LocalStorage + Reatividade)
 (function() {
-  const STORAGE_KEY = "MONTAXX_ERP_DATA_V1";
+  const STORAGE_KEY = "MONTAXX_ERP_DATA_V2";
+  const LEGACY_KEYS = ["MONTAXX_ERP_DATA_V1"]; // dados de demonstracao das versoes anteriores
 
-  // Dados iniciais realistas para o montador e vendedor de móveis
+  // Base inicial de PRODUCAO: sistema comeca vazio.
+  // Os dados da empresa sao preenchidos pelo administrador em
+  // "Configuracoes & Backup" e sobem automaticamente para a nuvem.
   const DEFAULT_DATA = {
     settings: {
       companyName: "MONTAXX Montagens e Venda de Móveis",
-      ownerName: "Carlos Montaxx",
-      phone: "5511999999999",
-      email: "contato@montaxx.com.br",
-      pixKey: "11999999999 (Celular)",
-      pixName: "Carlos Montaxx Serviços",
-      city: "São Paulo - SP",
+      ownerName: "",
+      phone: "",
+      email: "",
+      pixKey: "",
+      pixName: "",
+      city: "",
       warrantyDays: 90
     },
-    clients: [
-      {
-        id: "CLI-101",
-        name: "Mariana Castro",
-        phone: "5511987654321",
-        address: "Rua Augusta, 1420, Apto 82",
-        neighborhood: "Consolação",
-        city: "São Paulo",
-        type: "Apartamento (com elevador)",
-        notes: "Cliente muito cuidadosa. Pediu para tirar sapatos ao entrar.",
-        createdAt: "2026-08-15"
-      },
-      {
-        id: "CLI-102",
-        name: "Rodrigo Ferreira",
-        phone: "5511976543210",
-        address: "Av. Paulista, 900, Conj 45",
-        neighborhood: "Bela Vista",
-        city: "São Paulo",
-        type: "Comercial",
-        notes: "Montagem de escritório e suporte de TV 75 polegadas.",
-        createdAt: "2026-08-20"
-      },
-      {
-        id: "CLI-103",
-        name: "Camila Silveira",
-        phone: "5511965432109",
-        address: "Rua Domingos de Morais, 540",
-        neighborhood: "Vila Mariana",
-        city: "São Paulo",
-        type: "Apartamento (sem elevador, 2º andar)",
-        notes: "Instalação de piso laminado no quarto e sala.",
-        createdAt: "2026-09-01"
-      },
-      {
-        id: "CLI-104",
-        name: "Lucas Mendes",
-        phone: "5511954321098",
-        address: "Rua Teodoro Sampaio, 2100",
-        neighborhood: "Pinheiros",
-        city: "São Paulo",
-        type: "Casa térrea",
-        notes: "Comprador do Painel Home Theater com LED.",
-        createdAt: "2026-09-05"
-      }
-    ],
-    inventory: [
-      {
-        id: "MTX-01",
-        name: "Guarda-Roupa Casal Imperial 6 Portas com Espelho",
-        category: "Quarto",
-        costPrice: 1150.00,
-        salePrice: 1899.00,
-        stock: 4,
-        minStock: 2,
-        image: "assets/images/wardrobe.jpg",
-        description: "100% MDF, corrediças telescópicas, portas espelhadas"
-      },
-      {
-        id: "MTX-02",
-        name: "Painel Home Theater Ripado Sublime com LED TV 75\"",
-        category: "Sala de Estar",
-        costPrice: 720.00,
-        salePrice: 1290.00,
-        stock: 6,
-        minStock: 3,
-        image: "assets/images/tv-panel.jpg",
-        description: "Ripado autêntico com fita de LED quente embutida"
-      },
-      {
-        id: "MTX-03",
-        name: "Mesa de Jantar Áustria 6 Lugares com Cadeiras Velvet",
-        category: "Cozinha & Jantar",
-        costPrice: 1350.00,
-        salePrice: 2190.00,
-        stock: 3,
-        minStock: 1,
-        image: "assets/images/dining-table.jpg",
-        description: "Tampo madeira maciça, base aço preto, cadeiras estofadas"
-      },
-      {
-        id: "MTX-04",
-        name: "Suporte Articulado para TV 32\" a 85\" Ultra-Slim",
-        category: "Acessórios",
-        costPrice: 65.00,
-        salePrice: 150.00,
-        stock: 12,
-        minStock: 5,
-        image: "assets/images/servico-acessorios.jpeg",
-        description: "Aço reforçado com nível bolha e parafusos extras inclusos"
-      }
-    ],
-    orders: [
-      {
-        id: "OS-2026-001",
-        clientId: "CLI-101",
-        clientName: "Mariana Castro",
-        clientPhone: "5511987654321",
-        address: "Rua Augusta, 1420, Apto 82 - Consolação",
-        serviceType: "Montagem de Guarda-Roupa",
-        description: "Montagem de Guarda-Roupa Casal 6 portas com gavetas e alinhamento de espelho.",
-        date: "2026-09-09",
-        time: "10:00",
-        price: 220.00,
-        paymentMethod: "Pix",
-        paymentStatus: "Pago",
-        status: "concluido", // agendado, andamento, concluido, cancelado
-        checklist: [
-          { item: "Conferência de caixas e peças na entrega", done: true },
-          { item: "Proteção do piso com papelão/lona", done: true },
-          { item: "Montagem da estrutura e prateleiras", done: true },
-          { item: "Alinhamento fino de portas e corrediças", done: true },
-          { item: "Limpeza da serragem e recolhimento de lixo", done: true }
-        ],
-        notes: "Cliente elogiou a pontualidade e cuidado."
-      },
-      {
-        id: "OS-2026-002",
-        clientId: "CLI-102",
-        clientName: "Rodrigo Ferreira",
-        clientPhone: "5511976543210",
-        address: "Av. Paulista, 900, Conj 45 - Bela Vista",
-        serviceType: "Instalação de TV & Suporte",
-        description: "Fixação de TV 75 polegadas em parede de drywall com buchas metálicas basculantes.",
-        date: "2026-09-09",
-        time: "15:00",
-        price: 180.00,
-        paymentMethod: "Cartão de Crédito",
-        paymentStatus: "Pendente",
-        status: "andamento",
-        checklist: [
-          { item: "Localização de tubulação com detector de metais", done: true },
-          { item: "Marcação com nível a laser milimétrico", done: true },
-          { item: "Furação e fixação do suporte com buchas especiais", done: false },
-          { item: "Passagem e organização de cabos HDMI", done: false },
-          { item: "Teste de fixação e peso", done: false }
-        ],
-        notes: "Levar broca vídea 10mm e buchas Toggle."
-      },
-      {
-        id: "OS-2026-003",
-        clientId: "CLI-103",
-        clientName: "Camila Silveira",
-        clientPhone: "5511965432109",
-        address: "Rua Domingos de Morais, 540 - Vila Mariana",
-        serviceType: "Instalação de Piso Laminado",
-        description: "Instalação de 42m² de piso laminado click + rodapés de 8cm em todos os cômodos.",
-        date: "2026-09-10",
-        time: "08:30",
-        price: 1050.00,
-        paymentMethod: "Pix (50% entrada + 50% término)",
-        paymentStatus: "Entrada Paga",
-        status: "agendado",
-        checklist: [
-          { item: "Verificação de nivelamento e umidade do contrapiso", done: false },
-          { item: "Instalação de manta acústica", done: false },
-          { item: "Encaixe dos pisos com junta de dilatação", done: false },
-          { item: "Instalação dos rodapés com corte de canto 45°", done: false },
-          { item: "Aspiração e acabamento com silicone acrílico", done: false }
-        ],
-        notes: "Agendado para 2 dias de execução."
-      },
-      {
-        id: "OS-2026-004",
-        clientId: "CLI-104",
-        clientName: "Lucas Mendes",
-        clientPhone: "5511954321098",
-        address: "Rua Teodoro Sampaio, 2100 - Pinheiros",
-        serviceType: "Venda de Móvel + Montagem",
-        description: "Entrega e montagem do Painel Home Theater Ripado com fiação embutida.",
-        date: "2026-09-11",
-        time: "13:30",
-        price: 1290.00,
-        paymentMethod: "Cartão Parcelado 10x",
-        paymentStatus: "Pago",
-        status: "agendado",
-        checklist: [
-          { item: "Carregar móvel lacrado na van", done: false },
-          { item: "Instalar suporte de sustentação com laser", done: false },
-          { item: "Montagem dos painéis ripados e fita LED", done: false },
-          { item: "Teste do nicho flutuante e gavetas", done: false }
-        ],
-        notes: "Móvel separado no estoque do galpão."
-      }
-    ],
-    transactions: [
-      { id: "TR-01", type: "income", category: "Montagem de Móveis", desc: "OS-2026-001 - Mariana Castro", amount: 220.00, date: "2026-09-09", paymentMethod: "Pix" },
-      { id: "TR-02", type: "income", category: "Venda de Móveis", desc: "Venda Painel Ripado - Lucas Mendes", amount: 1290.00, date: "2026-09-08", paymentMethod: "Cartão" },
-      { id: "TR-03", type: "expense", category: "Combustível", desc: "Abastecimento van de trabalho", amount: 150.00, date: "2026-09-08", paymentMethod: "Pix" },
-      { id: "TR-04", type: "expense", category: "Ferramentas & Insumos", desc: "Caixa de parafusos Philips e buchas 8mm Fischer", amount: 85.00, date: "2026-09-07", paymentMethod: "Dinheiro" },
-      { id: "TR-05", type: "income", category: "Sinal de Instalação", desc: "Entrada 50% Pisos - Camila Silveira", amount: 525.00, date: "2026-09-07", paymentMethod: "Pix" },
-      { id: "TR-06", type: "income", category: "Instalação de Acessórios", desc: "Instalação de 2 ventiladores e chuveiro", amount: 280.00, date: "2026-09-06", paymentMethod: "Pix" }
-    ],
-    proposals: [
-      {
-        id: "PROP-101",
-        clientName: "Mariana Castro",
-        clientPhone: "5511987654321",
-        date: "2026-09-08",
-        validUntil: "2026-09-15",
-        items: [
-          { desc: "Montagem de Guarda-Roupa Casal 6 Portas", qty: 1, unitPrice: 220.00, subtotal: 220.00 },
-          { desc: "Instalação de Espelho de Corpo Inteiro em Alvenaria", qty: 1, unitPrice: 50.00, subtotal: 50.00 }
-        ],
-        subtotal: 270.00,
-        discount: 20.00,
-        total: 250.00,
-        paymentTerms: "À vista no Pix com desconto ou em 3x no cartão.",
-        notes: "Garantia de 90 dias com revisão gratuita se necessário."
-      }
-    ]
+    clients: [],
+    inventory: [],
+    orders: [],
+    transactions: [],
+    proposals: []
   };
 
   class Store {
     constructor() {
-      this.data = this.load();
+      // listeners precisa existir ANTES de load(): no primeiro acesso (sem dados
+      // salvos) o load() chama save() -> notify(), que percorre esta lista.
       this.listeners = [];
+      this.data = this.load();
     }
 
     load() {
+      // Descarta resquícios de demonstração de versões anteriores
+      try {
+        LEGACY_KEYS.forEach(k => localStorage.removeItem(k));
+      } catch (e) { /* navegador sem localStorage: segue em memória */ }
+
       try {
         const local = localStorage.getItem(STORAGE_KEY);
         if (local) {
@@ -293,6 +97,21 @@
       } catch (err) {
         return { success: false, error: err.message };
       }
+    }
+
+    /**
+     * Gera identificadores sequenciais e SEM COLISÃO (CLI-001, MTX-014, OS-2026-007).
+     * Os códigos aleatórios anteriores tinham poucas combinações e passariam a
+     * repetir com poucos cadastros reais, sobrescrevendo registros já existentes.
+     */
+    nextId(listName, prefix, digits = 3) {
+      const list = this.data[listName] || [];
+      let maior = 0;
+      list.forEach(item => {
+        const m = String(item && item.id || "").match(/(\d+)\s*$/);
+        if (m) maior = Math.max(maior, parseInt(m[1], 10));
+      });
+      return prefix + String(maior + 1).padStart(digits, "0");
     }
 
     // Métodos utilitários
@@ -375,6 +194,9 @@
       this.save();
     }
   }
+
+  // Exposto para o logout (auth.js) limpar o cache do aparelho compartilhado
+  window.MONTAXX_STORAGE_KEYS = [STORAGE_KEY].concat(LEGACY_KEYS);
 
   window.MONTAXX_STORE = new Store();
 })();

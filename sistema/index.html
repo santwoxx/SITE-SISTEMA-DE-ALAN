@@ -13,7 +13,82 @@
   <link rel="stylesheet" href="css/erp.css">
   <link rel="stylesheet" href="css/print.css" media="print">
 </head>
-<body>
+<body data-auth="loading">
+
+  <!-- ================= TELA DE ACESSO (LOGIN) ================= -->
+  <div class="auth-gate" id="auth-gate">
+
+    <!-- Estado inicial: conferindo se já existe sessão salva -->
+    <div class="auth-splash">
+      <div class="auth-spinner" aria-hidden="true"></div>
+      <p>Verificando o seu acesso…</p>
+    </div>
+
+    <!-- Formulários de entrada -->
+    <div class="auth-card">
+      <div class="auth-brand">
+        <img src="assets/images/logo.svg" alt="MONTAXX" class="auth-logo">
+        <span class="auth-badge">GESTÃO PRO</span>
+      </div>
+
+      <h1 class="auth-title">Acesso ao Sistema</h1>
+      <p class="auth-subtitle">Área restrita à equipe MONTAXX.</p>
+
+      <div class="auth-tabs" role="tablist">
+        <button type="button" class="auth-tab active" data-target="auth-pane-admin">Administrador</button>
+        <button type="button" class="auth-tab" data-target="auth-pane-staff">Funcionário</button>
+      </div>
+
+      <!-- Administrador: conta Google -->
+      <div class="auth-pane active" id="auth-pane-admin">
+        <p class="auth-note">
+          A administração entra com a conta <strong>Google</strong> autorizada da empresa.
+        </p>
+        <button type="button" class="btn-google" id="btn-login-google">
+          <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          Entrar com Google
+        </button>
+      </div>
+
+      <!-- Funcionário: e-mail e senha -->
+      <div class="auth-pane" id="auth-pane-staff">
+        <form id="form-login-staff" autocomplete="on">
+          <div class="form-group">
+            <label class="form-label" for="staff-email">E-mail de trabalho</label>
+            <input type="email" id="staff-email" class="form-control"
+                   placeholder="montador@montaxx.com.br" autocomplete="username" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="staff-password">Senha</label>
+            <input type="password" id="staff-password" class="form-control"
+                   placeholder="Sua senha de acesso" autocomplete="current-password" required>
+          </div>
+
+          <button type="submit" class="btn-erp btn-erp-primary auth-submit" id="btn-login-staff">
+            Entrar no Sistema
+          </button>
+
+          <button type="button" class="auth-link" id="btn-forgot-password">
+            Esqueci minha senha
+          </button>
+        </form>
+      </div>
+
+      <p class="auth-error" id="auth-error" hidden></p>
+      <p class="auth-busy" id="auth-busy" hidden>Verificando…</p>
+
+      <p class="auth-footer">
+        Não tem acesso? Fale com o administrador da MONTAXX.
+        <a href="/site/" class="auth-footer-link" data-site-link>Voltar ao site</a>
+      </p>
+    </div>
+  </div>
 
   <div class="app-container">
     <!-- ================= SIDEBAR ================= -->
@@ -53,12 +128,12 @@
           <span>Clientes (CRM)</span>
         </a>
 
-        <a href="#financeiro" class="nav-link-item" data-view="view-financial">
+        <a href="#financeiro" class="nav-link-item" data-view="view-financial" data-admin-only>
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
           <span>Controle Financeiro</span>
         </a>
 
-        <a href="#configuracoes" class="nav-link-item" data-view="view-settings">
+        <a href="#configuracoes" class="nav-link-item" data-view="view-settings" data-admin-only>
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           <span>Configurações & Backup</span>
         </a>
@@ -66,11 +141,18 @@
 
       <div class="sidebar-footer">
         <div class="user-profile-badge">
-          <div class="user-avatar">CM</div>
+          <div class="user-avatar" id="sidebar-user-avatar">--</div>
           <div class="user-info">
-            <strong>Carlos Montaxx</strong>
-            <span>Montador Responsável</span>
+            <strong id="sidebar-user-name">Carregando…</strong>
+            <span id="sidebar-user-role">—</span>
           </div>
+          <button type="button" class="btn-logout" onclick="window.montaxxLogout()" title="Sair do sistema" aria-label="Sair do sistema">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </button>
         </div>
       </div>
     </aside>
@@ -87,13 +169,14 @@
         </div>
 
         <div class="topbar-right">
+          <span class="sync-status" id="sync-status" data-state="saving" hidden>Conectando…</span>
           <button class="btn-erp btn-erp-outline btn-sm" onclick="window.openNewFurnitureModal()">
             + Novo Móvel
           </button>
           <button class="btn-erp btn-erp-primary btn-sm" onclick="window.openNewOSModal()">
             ⚡ Nova Ordem de Serviço
           </button>
-          <a href="/site/" target="_blank" class="btn-erp btn-erp-outline btn-sm" title="Ver Site Institucional">
+          <a href="/site/" target="_blank" rel="noopener" class="btn-erp btn-erp-outline btn-sm" title="Ver Site Institucional" data-site-link>
             🌐 Ver Site
           </a>
         </div>
@@ -105,7 +188,7 @@
         <!-- ================= 1. VIEW DASHBOARD ================= -->
         <section class="view-panel active" id="view-dashboard">
           <div class="stats-row">
-            <div class="stat-card">
+            <div class="stat-card" data-admin-only>
               <div>
                 <div class="stat-title">Faturamento Total</div>
                 <div class="stat-value" id="kpi-revenue">R$ 0,00</div>
@@ -114,7 +197,7 @@
               <div class="stat-icon">💰</div>
             </div>
 
-            <div class="stat-card">
+            <div class="stat-card" data-admin-only>
               <div>
                 <div class="stat-title">Lucro Líquido</div>
                 <div class="stat-value" id="kpi-profit" style="color: var(--success);">R$ 0,00</div>
@@ -127,7 +210,7 @@
               <div>
                 <div class="stat-title">Montagens Concluídas</div>
                 <div class="stat-value" id="kpi-completed">0</div>
-                <div class="stat-sub">Avaliações 100% positivas</div>
+                <div class="stat-sub">Serviços finalizados</div>
               </div>
               <div class="stat-icon">🛠️</div>
             </div>
@@ -155,7 +238,7 @@
                 </div>
               </div>
 
-              <div class="erp-card">
+              <div class="erp-card" data-admin-only>
                 <div class="erp-card-header">
                   <h3 class="erp-card-title">📊 Receitas por Categoria de Serviço</h3>
                 </div>
@@ -185,7 +268,7 @@
                   <button class="btn-erp btn-erp-outline" style="justify-content: flex-start;" onclick="document.querySelector('[data-view=\'view-quotes\']').click()">
                     📋 Criar Proposta Comercial para Cliente
                   </button>
-                  <button class="btn-erp btn-erp-outline" style="justify-content: flex-start;" onclick="window.openNewTransactionModal('expense')">
+                  <button class="btn-erp btn-erp-outline" style="justify-content: flex-start;" onclick="window.openNewTransactionModal('expense')" data-admin-only>
                     ⛽ Lançar Despesa (Combustível / Insumos)
                   </button>
                 </div>
@@ -382,7 +465,7 @@
         </section>
 
         <!-- ================= 6. VIEW CONTROLE FINANCEIRO ================= -->
-        <section class="view-panel" id="view-financial">
+        <section class="view-panel" id="view-financial" data-admin-only>
           <div class="stats-row">
             <div class="stat-card">
               <div>
@@ -443,7 +526,7 @@
         </section>
 
         <!-- ================= 7. VIEW CONFIGURAÇÕES & BACKUP ================= -->
-        <section class="view-panel" id="view-settings">
+        <section class="view-panel" id="view-settings" data-admin-only>
           <div class="dashboard-grid">
             <div class="erp-card">
               <h3 class="erp-card-title" style="margin-bottom: 18px;">🏢 Dados da Empresa MONTAXX</h3>
@@ -467,17 +550,23 @@
               <div class="form-grid-2">
                 <div class="form-group">
                   <label class="form-label" for="settings-pix">Chave Pix para Propostas:</label>
-                  <input type="text" id="settings-pix" class="form-control">
+                  <input type="text" id="settings-pix" class="form-control" placeholder="CNPJ, celular ou e-mail">
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="settings-city">Região Base de Atendimento:</label>
-                  <input type="text" id="settings-city" class="form-control">
+                  <label class="form-label" for="settings-pix-name">Titular da Chave Pix:</label>
+                  <input type="text" id="settings-pix-name" class="form-control" placeholder="Nome que aparece no comprovante">
                 </div>
               </div>
 
-              <div class="form-group">
-                <label class="form-label" for="settings-email">E-mail de Contato:</label>
-                <input type="email" id="settings-email" class="form-control">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="settings-city">Região Base de Atendimento:</label>
+                  <input type="text" id="settings-city" class="form-control" placeholder="Ex: São Paulo - SP">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="settings-email">E-mail de Contato:</label>
+                  <input type="email" id="settings-email" class="form-control">
+                </div>
               </div>
 
               <button class="btn-erp btn-erp-primary" id="btn-save-settings">Salvar Configurações</button>
@@ -487,7 +576,9 @@
               <div class="erp-card">
                 <h3 class="erp-card-title" style="margin-bottom: 14px;">💾 Backup e Segurança dos Dados</h3>
                 <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 18px;">
-                  Todos os clientes, ordens de serviço, estoque e finanças ficam salvos no navegador. Faça download do backup regularmente para manter seus dados seguros.
+                  Clientes, ordens de serviço, estoque e finanças são gravados na nuvem (Firebase) e
+                  sincronizados em tempo real entre todos os aparelhos da equipe, com cópia local para
+                  trabalhar sem internet. Ainda assim, baixe o backup periodicamente como segurança extra.
                 </p>
 
                 <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -502,13 +593,31 @@
                 </div>
               </div>
 
+              <div class="erp-card">
+                <div class="erp-card-header">
+                  <h3 class="erp-card-title">👥 Equipe & Acessos ao Sistema</h3>
+                  <button class="btn-erp btn-erp-primary btn-sm" onclick="window.openNewEmployeeModal()">
+                    + Novo Funcionário
+                  </button>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+                  Administradores entram com a conta Google. Funcionários usam o e-mail e a senha
+                  criados aqui e não enxergam o Financeiro nem estas Configurações.
+                </p>
+                <div id="team-list" class="team-list">
+                  <p class="team-empty">Carregando equipe…</p>
+                </div>
+              </div>
+
               <div class="erp-card" style="border-color: rgba(239, 68, 68, 0.3);">
-                <h3 class="erp-card-title" style="color: var(--danger); margin-bottom: 10px;">⚠️ Dados Demonstrativos</h3>
+                <h3 class="erp-card-title" style="color: var(--danger); margin-bottom: 10px;">⚠️ Zerar o Sistema</h3>
                 <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
-                  Restaura o sistema com exemplos prontos de clientes, ordens de serviço e catálogo inicial.
+                  Apaga <strong>definitivamente</strong> todos os clientes, ordens de serviço, estoque,
+                  propostas e lançamentos financeiros — inclusive na nuvem, para toda a equipe.
+                  Baixe o backup antes de continuar.
                 </p>
                 <button class="btn-erp btn-erp-danger btn-sm" id="btn-reset-demo">
-                  Restaurar Dados de Exemplo
+                  Apagar Todos os Dados
                 </button>
               </div>
             </div>
@@ -814,6 +923,46 @@
     </div>
   </div>
 
+  <!-- MODAL: Novo Funcionário (somente administrador) -->
+  <div class="erp-modal-overlay" id="modal-new-employee">
+    <div class="erp-modal-card">
+      <div class="erp-modal-header">
+        <h3 class="erp-modal-title">👷 Criar Acesso de Funcionário</h3>
+        <button class="erp-modal-close" data-modal-close>✕</button>
+      </div>
+      <div class="erp-modal-body">
+        <div class="form-group">
+          <label class="form-label" for="new-emp-name">Nome do Funcionário:</label>
+          <input type="text" id="new-emp-name" class="form-control" placeholder="Ex: José Antunes">
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="new-emp-email">E-mail de Login:</label>
+            <input type="email" id="new-emp-email" class="form-control" placeholder="jose@montaxx.com.br" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-emp-password">Senha Inicial (mín. 6 caracteres):</label>
+            <input type="text" id="new-emp-password" class="form-control" placeholder="Senha que será entregue ao funcionário" autocomplete="new-password">
+          </div>
+        </div>
+
+        <div style="background: rgba(255, 184, 0, 0.08); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary);">
+          <small style="color: var(--text-muted); display: block; line-height: 1.6;">
+            O funcionário verá o Painel, Ordens de Serviço, Móveis, Propostas e Clientes.
+            <strong style="color: var(--text-secondary);">Financeiro e Configurações ficam restritos à administração.</strong>
+            Entregue a senha inicial ao funcionário — ele pode trocá-la depois pelo link
+            &ldquo;Esqueci minha senha&rdquo; na tela de acesso.
+          </small>
+        </div>
+      </div>
+      <div class="erp-modal-footer">
+        <button class="btn-erp btn-erp-outline" data-modal-close>Cancelar</button>
+        <button class="btn-erp btn-erp-primary" id="btn-save-employee" onclick="window.saveNewEmployee()">Criar Acesso</button>
+      </div>
+    </div>
+  </div>
+
   <!-- CONTAINER DE IMPRESSÃO / PDF -->
   <div id="printable-sheet" class="print-only-sheet"></div>
 
@@ -826,5 +975,24 @@
   <script src="js/client-manager.js"></script>
   <script src="js/financial.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- Firebase: autenticação (admin via Google / funcionários via e-mail e senha)
+       e sincronização dos dados na nuvem. Módulos ES = carregam após os scripts acima. -->
+  <script type="module" src="js/auth.js"></script>
+
+  <!-- Rede bloqueada ou Firebase fora do ar: avisa em vez de travar no "carregando".
+       O aviso só aparece se o módulo js/auth.js realmente não tiver executado. -->
+  <script>
+    setTimeout(function () {
+      if (document.body.dataset.auth !== "loading") return;
+      document.body.dataset.auth = "form";
+      if (window.MONTAXX_AUTH_LOADED) return; // SDK ok, apenas demorou: mostra o formulário
+      var box = document.getElementById("auth-error");
+      if (box) {
+        box.hidden = false;
+        box.textContent = "Não foi possível carregar o Firebase. Verifique a conexão com a internet e recarregue a página.";
+      }
+    }, 15000);
+  </script>
 </body>
 </html>

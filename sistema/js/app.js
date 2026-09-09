@@ -128,6 +128,7 @@ function initSettings() {
   setField("settings-phone", settings.phone);
   setField("settings-email", settings.email);
   setField("settings-pix", settings.pixKey);
+  setField("settings-pix-name", settings.pixName);
   setField("settings-city", settings.city);
 
   // Salvar Configurações
@@ -140,6 +141,7 @@ function initSettings() {
         phone: document.getElementById("settings-phone")?.value.trim(),
         email: document.getElementById("settings-email")?.value.trim(),
         pixKey: document.getElementById("settings-pix")?.value.trim(),
+        pixName: document.getElementById("settings-pix-name")?.value.trim(),
         city: document.getElementById("settings-city")?.value.trim()
       };
       window.MONTAXX_STORE.updateSettings(updated);
@@ -181,10 +183,14 @@ function initSettings() {
   const resetBtn = document.getElementById("btn-reset-demo");
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
-      if (confirm("Deseja restaurar os dados de demonstração da MONTAXX? (Isso sobrescreverá cadastros não salvos em backup).")) {
+      const aviso = `ATENÇÃO: isto apaga TODOS os clientes, ordens de serviço, estoque, propostas e lançamentos financeiros — na nuvem e para toda a equipe.
+
+Esta ação NÃO pode ser desfeita. Digite APAGAR para confirmar:`;
+
+      if (prompt(aviso) === "APAGAR") {
         window.MONTAXX_STORE.resetToDefault();
-        window.showToast("Dados padrão restaurados!");
-        setTimeout(() => location.reload(), 800);
+        window.showToast("Sistema zerado. Comece cadastrando os dados da empresa.");
+        setTimeout(() => location.reload(), 1200);
       }
     });
   }

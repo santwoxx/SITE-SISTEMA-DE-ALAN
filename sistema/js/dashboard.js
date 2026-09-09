@@ -131,6 +131,11 @@
     const container = document.getElementById("low-stock-container");
     if (!container) return;
 
+    if (inventory.length === 0) {
+      container.innerHTML = `<div style="color: var(--text-muted); font-size: 0.85rem;">Nenhum móvel cadastrado ainda. Use "+ Novo Móvel" para montar o seu catálogo.</div>`;
+      return;
+    }
+
     const lowItems = inventory.filter(item => item.stock <= item.minStock);
 
     if (lowItems.length === 0) {
@@ -164,7 +169,7 @@
 
       // Registra transação se não registrada
       window.MONTAXX_STORE.addTransaction({
-        id: "TR-" + Date.now().toString().slice(-5),
+        id: window.MONTAXX_STORE.nextId("transactions", "TR-"),
         type: "income",
         category: order.serviceType,
         desc: `${order.id} - ${order.clientName}`,

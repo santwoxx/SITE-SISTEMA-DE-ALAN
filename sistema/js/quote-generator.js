@@ -120,8 +120,8 @@ ${discount > 0 ? `🎁 Desconto Especial: - R$ ${discount.toFixed(2)}\n` : ""}${
 
 💳 *FORMAS DE PAGAMENTO:*
 • Pix: Desconto especial à vista
-  Chave Pix: ${settings.pixKey || "11999999999"}
-  Titular: ${settings.pixName || "MONTAXX Serviços"}
+  Chave Pix: ${settings.pixKey || "(a combinar)"}
+  Titular: ${settings.pixName || settings.companyName || "MONTAXX"}
 • Cartão de Crédito em até 10x ou 12x
 
 🛡️ *GARANTIA & QUALIDADE MONTAXX:*
@@ -174,8 +174,8 @@ Para aprovar e agendar o melhor dia e horário, basta responder esta mensagem!`;
         </div>
         <div class="print-company-info">
           <strong>${settings.companyName || "MONTAXX Montagens"}</strong><br>
-          WhatsApp: ${settings.phone || "(11) 99999-9999"}<br>
-          ${settings.city || "São Paulo - SP"}
+          ${settings.phone ? "WhatsApp: " + settings.phone + "<br>" : ""}
+          ${settings.city || ""}
         </div>
       </div>
 
@@ -234,7 +234,7 @@ Para aprovar e agendar o melhor dia e horário, basta responder esta mensagem!`;
       <div class="print-section" style="margin-top: 20px;">
         <div class="print-section-title">Condições de Pagamento e Termos</div>
         <p style="font-size: 9pt; color: #475569; margin-bottom: 6px;">
-          • Pagamento via Pix: Chave Pix <strong>${settings.pixKey || "11999999999"}</strong> (${settings.pixName || "Carlos Montaxx"}).<br>
+          • Pagamento via Pix: Chave Pix <strong>${settings.pixKey || "(a combinar)"}</strong>${settings.pixName ? " (" + settings.pixName + ")" : ""}.<br>
           • Cartão de Crédito em até 10x ou 12x com taxas da maquininha.<br>
           • <strong>Garantia de 90 dias:</strong> Cobre regulagens de corrediças, dobradiças e fixações executadas pela MONTAXX.
         </p>
@@ -242,7 +242,7 @@ Para aprovar e agendar o melhor dia e horário, basta responder esta mensagem!`;
 
       <div class="print-signatures">
         <div class="signature-box">
-          ${settings.ownerName || "Carlos Montaxx"}<br>
+          ${settings.ownerName || settings.companyName || "MONTAXX"}<br>
           <strong>MONTAXX Serviços Especializados</strong>
         </div>
         <div class="signature-box">

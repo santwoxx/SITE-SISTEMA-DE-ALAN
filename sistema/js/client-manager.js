@@ -78,7 +78,7 @@
     }
 
     const newClient = {
-      id: "CLI-" + Math.floor(100 + Math.random() * 900),
+      id: window.MONTAXX_STORE.nextId("clients", "CLI-"),
       name: name,
       phone: phone.replace(/\D/g, ""),
       address: address,

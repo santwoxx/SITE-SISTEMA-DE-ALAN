@@ -328,11 +328,11 @@
 
     const client = window.MONTAXX_STORE.getClients().find(c => c.id === clientId) || {
       name: "Cliente Avulso",
-      phone: "5511999999999",
+      phone: "",
       address: "Endereço a confirmar"
     };
 
-    const newId = "OS-" + new Date().getFullYear() + "-" + Math.floor(100 + Math.random() * 900);
+    const newId = window.MONTAXX_STORE.nextId("orders", "OS-" + new Date().getFullYear() + "-");
 
     const newOrder = {
       id: newId,

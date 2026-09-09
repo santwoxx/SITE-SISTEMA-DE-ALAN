@@ -91,7 +91,7 @@
     }
 
     const newTx = {
-      id: "TR-" + Math.floor(100 + Math.random() * 900),
+      id: window.MONTAXX_STORE.nextId("transactions", "TR-"),
       type: type,
       category: category,
       desc: desc,

@@ -883,3 +883,452 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   CONTROLE DE ACESSO (LOGIN FIREBASE) & PAPÉIS DE USUÁRIO
+   ========================================================================== */
+
+/* --- Estados da aplicação: loading -> form -> ready --------------------- */
+body[data-auth="loading"] .app-container,
+body[data-auth="form"] .app-container {
+  display: none;
+}
+
+body[data-auth="ready"] .auth-gate {
+  display: none;
+}
+
+body[data-auth="loading"] .auth-card,
+body[data-auth="form"] .auth-splash {
+  display: none;
+}
+
+/* --- Permissões: o que o funcionário não enxerga ------------------------ */
+body[data-role="funcionario"] [data-admin-only] {
+  display: none !important;
+}
+
+/* --- Portão de acesso --------------------------------------------------- */
+.auth-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(1000px 520px at 50% -10%, rgba(255, 184, 0, 0.14), transparent 65%),
+    var(--bg-app);
+  overflow-y: auto;
+}
+
+.auth-splash {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.auth-spinner {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  border: 3px solid var(--border-medium);
+  border-top-color: var(--primary);
+  animation: auth-spin 0.8s linear infinite;
+}
+
+@keyframes auth-spin {
+  to { transform: rotate(360deg); }
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 34px 30px 26px;
+  box-shadow: var(--shadow-base);
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.auth-logo {
+  height: 30px;
+  width: auto;
+}
+
+.auth-badge {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.9px;
+  color: var(--primary);
+  background: var(--primary-subtle);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-full);
+  padding: 3px 9px;
+}
+
+.auth-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.auth-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin: 6px 0 22px;
+}
+
+/* --- Abas Administrador / Funcionário ----------------------------------- */
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  margin-bottom: 22px;
+}
+
+.auth-tab {
+  padding: 9px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.auth-tab:hover { color: var(--text-secondary); }
+
+.auth-tab.active {
+  background: var(--primary);
+  color: #0B0C10;
+}
+
+.auth-pane { display: none; }
+.auth-pane.active { display: block; }
+
+.auth-note {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.auth-note strong { color: var(--text-secondary); }
+
+/* --- Botão do Google ---------------------------------------------------- */
+.btn-google {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 13px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-medium);
+  background: #FFFFFF;
+  color: #1F2328;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-google:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+.btn-google:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* --- Formulário do funcionário ------------------------------------------ */
+#form-login-staff .form-group { margin-bottom: 16px; }
+
+.auth-submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.auth-link {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-link:hover { color: var(--primary); }
+
+/* --- Mensagens ---------------------------------------------------------- */
+.auth-error {
+  margin-top: 18px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--danger-subtle);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #FCA5A5;
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+
+.auth-busy {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--primary);
+}
+
+.auth-footer {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.7;
+}
+
+.auth-footer-link {
+  display: block;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.auth-footer-link:hover { text-decoration: underline; }
+
+/* ==========================================================================
+   INDICADOR DE SINCRONIZAÇÃO NA NUVEM
+   ========================================================================== */
+.sync-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  background: var(--bg-input);
+}
+
+/* O atributo hidden precisa vencer o display:inline-flex acima */
+.sync-status[hidden] {
+  display: none;
+}
+
+.sync-status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.sync-status[data-state="ok"] {
+  color: var(--success);
+  border-color: rgba(16, 185, 129, 0.35);
+  background: var(--success-subtle);
+}
+
+.sync-status[data-state="saving"] {
+  color: var(--primary);
+  border-color: var(--border-primary);
+  background: var(--primary-subtle);
+}
+
+.sync-status[data-state="offline"] {
+  color: var(--warning);
+  border-color: rgba(245, 158, 11, 0.35);
+  background: var(--warning-subtle);
+}
+
+.sync-status[data-state="error"] {
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.35);
+  background: var(--danger-subtle);
+}
+
+/* ==========================================================================
+   PERFIL NA SIDEBAR (FOTO + SAIR)
+   ========================================================================== */
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info { min-width: 0; flex-grow: 1; }
+
+.user-info strong,
+.user-info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-info span { display: block; }
+
+.btn-logout {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-logout:hover {
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.4);
+  background: var(--danger-subtle);
+}
+
+/* ==========================================================================
+   GESTÃO DE EQUIPE (CONFIGURAÇÕES > ACESSOS)
+   ========================================================================== */
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.team-empty {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  padding: 14px 0;
+  text-align: center;
+}
+
+.team-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+}
+
+.team-row.is-inactive {
+  opacity: 0.5;
+}
+
+.team-avatar {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-data {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.team-data strong {
+  display: block;
+  font-size: 0.86rem;
+  color: var(--text-primary);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.team-data span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.team-self {
+  font-size: 0.63rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--primary);
+}
+
+.team-tag {
+  flex-shrink: 0;
+  font-size: 0.66rem;
+  font-weight: 800;
+  padding: 4px 9px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.team-tag.is-admin {
+  color: var(--primary);
+  background: var(--primary-subtle);
+  border: 1px solid var(--border-primary);
+}
+
+.team-tag.is-staff {
+  color: var(--info);
+  background: var(--info-subtle);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.team-action-void {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  width: 78px;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .auth-card { padding: 26px 20px 20px; }
+  .team-row { flex-wrap: wrap; }
+  .team-tag { order: 3; }
+}

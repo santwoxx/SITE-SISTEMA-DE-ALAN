@@ -90,7 +90,7 @@
     const paymentMethod = document.getElementById("sale-payment-method")?.value || "Cartão";
 
     const item = window.MONTAXX_STORE.getInventory().find(i => i.id === itemId);
-    const client = window.MONTAXX_STORE.getClients().find(c => c.id === clientId) || { name: "Cliente Balcão", phone: "5511999999999", address: "Retirada em loja" };
+    const client = window.MONTAXX_STORE.getClients().find(c => c.id === clientId) || { name: "Cliente Balcão", phone: "", address: "Retirada em loja" };
 
     if (!item) return;
     if (item.stock <= 0) {
@@ -104,7 +104,7 @@
     // 2. Registra receita
     const totalAmount = Number(item.salePrice);
     window.MONTAXX_STORE.addTransaction({
-      id: "TR-VENDA-" + Date.now().toString().slice(-4),
+      id: window.MONTAXX_STORE.nextId("transactions", "TR-"),
       type: "income",
       category: "Venda de Móveis",
       desc: `Venda: ${item.name} (${client.name})`,
@@ -115,7 +115,7 @@
 
     // 3. Se inclui montagem, cria OS agendada automaticamente!
     if (includeAssembly) {
-      const newOsId = "OS-" + new Date().getFullYear() + "-" + Math.floor(100 + Math.random() * 900);
+      const newOsId = window.MONTAXX_STORE.nextId("orders", "OS-" + new Date().getFullYear() + "-");
       window.MONTAXX_STORE.addOrder({
         id: newOsId,
         clientId: client.id,
@@ -163,7 +163,7 @@
     }
 
     const newItem = {
-      id: "MTX-" + Math.floor(10 + Math.random() * 90),
+      id: window.MONTAXX_STORE.nextId("inventory", "MTX-"),
       name: name,
       category: category,
       costPrice: cost,

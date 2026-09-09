@@ -1,0 +1,68 @@
+rules_version = '2';
+
+// ==========================================================================
+// MONTAXX ERP — Regras de Segurança do Firestore
+//
+// IMPORTANTE: esta é a proteção REAL dos dados. O bloqueio de telas feito no
+// navegador (auth.js) é apenas conforto visual — quem tentar acessar os dados
+// por fora do sistema é barrado aqui.
+//
+// Publicar com:  firebase deploy --only firestore:rules
+// ou colando o conteúdo em: Console do Firebase > Firestore > Regras
+// ==========================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- Administradores: lista fixa + obrigatoriamente login pelo Google --
+    // Precisa ser idêntica à constante ADMIN_EMAILS de sistema/js/firebase-config.js
+    function adminEmails() {
+      return ['brisasofc@gmail.com', 'montaxxsolucoes@gmail.com'];
+    }
+
+    function signedIn() {
+      return request.auth != null && request.auth.token.email != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.firebase.sign_in_provider == 'google.com'
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower() in adminEmails();
+    }
+
+    // ---- Funcionários: precisam de um cadastro ativo criado pelo admin ----
+    function staffDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isStaff() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && staffDoc().active == true;
+    }
+
+    function isTeam() {
+      return isAdmin() || isStaff();
+    }
+
+    // ---- Cadastro de usuários --------------------------------------------
+    // Só o administrador cria, edita ou desativa acessos. O funcionário
+    // consegue ler apenas o próprio cadastro (para o sistema saber o papel dele).
+    match /users/{uid} {
+      allow read:  if isAdmin() || (signedIn() && request.auth.uid == uid);
+      allow write: if isAdmin();
+    }
+
+    // ---- Dados operacionais da empresa -----------------------------------
+    // Clientes, ordens de serviço, estoque, propostas e financeiro.
+    match /erp/{docId} {
+      allow read, write: if isTeam();
+    }
+
+    // ---- Tudo o mais fica bloqueado --------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
