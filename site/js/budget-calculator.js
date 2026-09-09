@@ -1,4 +1,4 @@
-// MONTAXX - Calculadora de Orçamento Minimalista Corporativa
+// MONTAXX - Calculadora de Orçamento (Clean Retail Style)
 (function() {
   const SERVICES_LIST = [
     // Móveis
@@ -6,22 +6,22 @@
     { id: "m_gr4", name: "Guarda-Roupa Solteiro / 3 a 4 Portas", category: "moveis", basePrice: 130, time: "1h45" },
     { id: "m_cozinha", name: "Armário de Cozinha Completo (Balcão + Aéreos)", category: "moveis", basePrice: 220, time: "3h00" },
     { id: "m_painel", name: "Painel de TV com Nicho ou Rack Ripado", category: "moveis", basePrice: 120, time: "1h30" },
-    { id: "m_cama_bau", name: "Cama Box com Baú / Cama de Casal", category: "moveis", basePrice: 110, time: "1h15" },
+    { id: "m_cama_bau", name: "Cama Box com Baú / Cama Casal", category: "moveis", basePrice: 110, time: "1h15" },
     { id: "m_mesa", name: "Mesa de Jantar com 4 a 6 Cadeiras", category: "moveis", basePrice: 100, time: "1h00" },
-    { id: "m_escritorio", name: "Mesa de Trabalho / Setup Corporativo", category: "moveis", basePrice: 90, time: "1h00" },
+    { id: "m_escritorio", name: "Mesa de Escritório / Setup Gamer", category: "moveis", basePrice: 90, time: "1h00" },
     { id: "m_comoda", name: "Cômoda / Gaveteiro com Corrediças", category: "moveis", basePrice: 80, time: "45min" },
     
     // Acessórios
-    { id: "a_tv", name: "Instalação de Suporte de TV (Alvenaria ou Painel)", category: "acessorios", basePrice: 70, time: "40min" },
+    { id: "a_tv", name: "Instalação de Suporte de TV (Alvenaria/Drywall)", category: "acessorios", basePrice: 70, time: "40min" },
     { id: "a_chuveiro", name: "Instalação / Troca de Chuveiro Elétrico", category: "acessorios", basePrice: 60, time: "30min" },
-    { id: "a_ventilador", name: "Instalação de Ventilador de Teto com Balanceamento", category: "acessorios", basePrice: 120, time: "1h15" },
+    { id: "a_ventilador", name: "Instalação de Ventilador de Teto", category: "acessorios", basePrice: 120, time: "1h15" },
     { id: "a_luminaria", name: "Instalação de Luminária, Plafon ou Pendente", category: "acessorios", basePrice: 50, time: "30min" },
-    { id: "a_cortina", name: "Instalação de Varão ou Trilho Suíço de Cortina", category: "acessorios", basePrice: 45, time: "25min" },
-    { id: "a_espelho", name: "Fixação de Espelho com Buchas Especiais ou Prateleira", category: "acessorios", basePrice: 40, time: "25min" },
+    { id: "a_cortina", name: "Instalação de Varão ou Trilho de Cortina", category: "acessorios", basePrice: 45, time: "25min" },
+    { id: "a_espelho", name: "Fixação de Espelho ou Prateleira", category: "acessorios", basePrice: 40, time: "25min" },
     
     // Pisos
     { id: "p_laminado", name: "Instalação de Piso Laminado / Vinílico (por 10m²)", category: "pisos", basePrice: 250, time: "3h00" },
-    { id: "p_rodape", name: "Instalação de Rodapés com Canto 45° (por 15 metros)", category: "pisos", basePrice: 150, time: "2h00" }
+    { id: "p_rodape", name: "Instalação de Rodapés com Corte 45° (por 15 metros)", category: "pisos", basePrice: 150, time: "2h00" }
   ];
 
   let selectedItems = {};
@@ -49,7 +49,7 @@
             <div class="calc-item-name">${item.name}</div>
             <div class="calc-item-meta">
               <span>⏱️ Duração: ~${item.time}</span> • 
-              <span>Referência: <strong>R$ ${item.basePrice.toFixed(2).replace('.', ',')}</strong></span>
+              <span>Referência: <strong style="color: #111827;">R$ ${item.basePrice.toFixed(2).replace('.', ',')}</strong></span>
             </div>
           </div>
           <div class="calc-qty-control">
@@ -132,9 +132,9 @@
           total += sub;
           count += qty;
           lines.push(`
-            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--border-hairline);">
-              <span style="color: var(--text-secondary);">${item.name} (${qty}x)</span>
-              <span style="font-weight: 700; color: var(--text-pure);">R$ ${sub.toFixed(2).replace('.', ',')}</span>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #E5E7EB; font-size: 0.85rem;">
+              <span style="color: #4B5563;">${item.name} (${qty}x)</span>
+              <span style="font-weight: 700; color: #111827;">R$ ${sub.toFixed(2).replace('.', ',')}</span>
             </div>
           `);
         }
@@ -146,7 +146,7 @@
 
     if (summaryList) {
       if (lines.length === 0) {
-        summaryList.innerHTML = `<div style="color: var(--text-tertiary); text-align: center; padding: 20px 0;">Selecione os serviços ao lado para simular.</div>`;
+        summaryList.innerHTML = `<div style="color: #9CA3AF; text-align: center; padding: 24px 0; font-size: 0.85rem;">Selecione os serviços ao lado para simular.</div>`;
       } else {
         summaryList.innerHTML = lines.join("");
       }
@@ -154,7 +154,7 @@
 
     if (discountContainer) {
       if (discount > 0) {
-        discountContainer.innerHTML = `<div style="background: var(--success-subtle); color: var(--success); font-size: 0.78rem; font-weight: 600; padding: 6px 10px; border-radius: 4px; margin-bottom: 12px; text-align: center;">✓ Desconto Combo Aplicado (10% OFF): - R$ ${discount.toFixed(2).replace('.', ',')}</div>`;
+        discountContainer.innerHTML = `<div style="background: #ECFDF5; color: #065F46; font-size: 0.8rem; font-weight: 700; padding: 6px 10px; border-radius: 4px; margin-bottom: 12px; text-align: center; border: 1px solid #A7F3D0;">✓ Desconto Combo Aplicado (10% OFF): - R$ ${discount.toFixed(2).replace('.', ',')}</div>`;
         discountContainer.style.display = "block";
       } else {
         discountContainer.innerHTML = "";
@@ -203,14 +203,14 @@
       const message = 
 `*SOLICITAÇÃO DE ORÇAMENTO — MONTAXX*
 ---------------------------------------
-Olá, gostaria de verificar disponibilidade para os seguintes serviços:
+Olá, realizei a simulação no site e gostaria de agendar:
 
-📋 *ITENS SELECIONADOS:*
+📋 *SERVIÇOS SELECIONADOS:*
 ${listTxt}
 ${discount > 0 ? `🎁 Desconto Combo (10%): -R$ ${discount.toFixed(2)}\n` : ""}💰 *Estimativa Total:* R$ ${finalTotal.toFixed(2)}
 
-📍 *LOCAL E ACESSO:*
-• Região/Bairro: ${neighborhood}
+📍 *LOCALIZAÇÃO:*
+• Bairro/Cidade: ${neighborhood}
 • Acesso: ${access}
 
 Poderia me confirmar a disponibilidade técnica na agenda? Obrigado!`;
