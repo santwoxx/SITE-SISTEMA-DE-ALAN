@@ -1,0 +1,12 @@
+# Dependências e caches
+node_modules/
+.npm/
+
+# IDE e sistema operacional
+.DS_Store
+Thumbs.db
+*.log
+
+# Gemini / Antigravity temporários
+.system_generated/
+.gemini/

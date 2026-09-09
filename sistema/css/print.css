@@ -1,0 +1,129 @@
+/* ==========================================================================
+   ESTILOS DE IMPRESSÃO / GERAÇÃO DE PDF - MONTAXX PROPOSTAS E RECIBOS
+   ========================================================================== */
+
+@media print {
+  body {
+    background: #FFF !important;
+    color: #000 !important;
+    font-family: 'Plus Jakarta Sans', Arial, sans-serif !important;
+  }
+
+  .sidebar,
+  .topbar,
+  .btn-erp,
+  .kanban-board,
+  .stats-row,
+  .toast-container,
+  .no-print {
+    display: none !important;
+  }
+
+  .main-wrapper {
+    margin-left: 0 !important;
+  }
+
+  .content-area {
+    padding: 0 !important;
+  }
+
+  .print-only-sheet {
+    display: block !important;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    padding: 30px !important;
+    background: #FFF !important;
+    color: #1A202C !important;
+  }
+
+  .print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #FFB800;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  .print-logo {
+    height: 48px;
+  }
+
+  .print-company-info {
+    text-align: right;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  .print-title-box {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .print-title {
+    font-size: 16pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #000;
+  }
+
+  .print-section {
+    margin-bottom: 20px;
+    font-size: 10pt;
+  }
+
+  .print-section-title {
+    font-size: 11pt;
+    font-weight: 700;
+    border-bottom: 1px solid #CBD5E1;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    color: #334155;
+  }
+
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 10pt;
+  }
+
+  .print-table th {
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    padding: 8px 10px;
+    text-align: left;
+  }
+
+  .print-table td {
+    border: 1px solid #CBD5E1;
+    padding: 8px 10px;
+  }
+
+  .print-totals {
+    float: right;
+    width: 280px;
+    margin-bottom: 30px;
+  }
+
+  .print-signatures {
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    page-break-inside: avoid;
+  }
+
+  .signature-box {
+    width: 45%;
+    text-align: center;
+    border-top: 1px solid #000;
+    padding-top: 6px;
+    font-size: 9pt;
+  }
+}
+
+.print-only-sheet {
+  display: none;
+}

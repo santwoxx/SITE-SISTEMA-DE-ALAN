@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MONTAXX Gestão Pro | Sistema de Montagem e Venda de Móveis</title>
+  <meta name="theme-color" content="#FFB800">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/erp.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="erp-sidebar">
+      <div class="sidebar-header">
+        <img src="assets/images/logo.svg" alt="MONTAXX" class="sidebar-logo-img">
+        <span class="sidebar-badge-version">ERP PRO</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Operacional</div>
+        
+        <a href="#dashboard" class="nav-link-item active" data-view="view-dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Painel Geral</span>
+        </a>
+
+        <a href="#ordens" class="nav-link-item" data-view="view-os">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Ordens de Serviço</span>
+        </a>
+
+        <a href="#moveis" class="nav-link-item" data-view="view-furniture">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span>Móveis & Estoque</span>
+        </a>
+
+        <a href="#propostas" class="nav-link-item" data-view="view-quotes">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          <span>Propostas & Orçamentos</span>
+        </a>
+
+        <div class="nav-section-title">Gestão</div>
+
+        <a href="#clientes" class="nav-link-item" data-view="view-clients">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Clientes (CRM)</span>
+        </a>
+
+        <a href="#financeiro" class="nav-link-item" data-view="view-financial">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          <span>Controle Financeiro</span>
+        </a>
+
+        <a href="#configuracoes" class="nav-link-item" data-view="view-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Configurações & Backup</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-badge">
+          <div class="user-avatar">CM</div>
+          <div class="user-info">
+            <strong>Carlos Montaxx</strong>
+            <span>Montador Responsável</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN WRAPPER ================= -->
+    <div class="main-wrapper">
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="btn-toggle-sidebar" id="btn-toggle-sidebar" aria-label="Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <h1 class="topbar-page-title" id="topbar-page-title">Painel Geral</h1>
+        </div>
+
+        <div class="topbar-right">
+          <button class="btn-erp btn-erp-outline btn-sm" onclick="window.openNewFurnitureModal()">
+            + Novo Móvel
+          </button>
+          <button class="btn-erp btn-erp-primary btn-sm" onclick="window.openNewOSModal()">
+            ⚡ Nova Ordem de Serviço
+          </button>
+          <a href="/site/" target="_blank" class="btn-erp btn-erp-outline btn-sm" title="Ver Site Institucional">
+            🌐 Ver Site
+          </a>
+        </div>
+      </header>
+
+      <!-- CONTENT AREA -->
+      <main class="content-area">
+        
+        <!-- ================= 1. VIEW DASHBOARD ================= -->
+        <section class="view-panel active" id="view-dashboard">
+          <div class="stats-row">
+            <div class="stat-card">
+              <div>
+                <div class="stat-title">Faturamento Total</div>
+                <div class="stat-value" id="kpi-revenue">R$ 0,00</div>
+                <div class="stat-sub">Serviços e Vendas</div>
+              </div>
+              <div class="stat-icon">💰</div>
+            </div>
+
+            <div class="stat-card">
+              <div>
+                <div class="stat-title">Lucro Líquido</div>
+                <div class="stat-value" id="kpi-profit" style="color: var(--success);">R$ 0,00</div>
+                <div class="stat-sub">Após despesas operacionais</div>
+              </div>
+              <div class="stat-icon">📈</div>
+            </div>
+
+            <div class="stat-card">
+              <div>
+                <div class="stat-title">Montagens Concluídas</div>
+                <div class="stat-value" id="kpi-completed">0</div>
+                <div class="stat-sub">Avaliações 100% positivas</div>
+              </div>
+              <div class="stat-icon">🛠️</div>
+            </div>
+
+            <div class="stat-card">
+              <div>
+                <div class="stat-title">Serviços Pendentes</div>
+                <div class="stat-value" id="kpi-pending" style="color: var(--primary);">0</div>
+                <div class="stat-sub">Na fila de execução</div>
+              </div>
+              <div class="stat-icon">📅</div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <!-- Coluna Esquerda: Agenda e Montagens de Hoje -->
+            <div>
+              <div class="erp-card">
+                <div class="erp-card-header">
+                  <h3 class="erp-card-title">📅 Próximas Montagens & Instalações</h3>
+                  <button class="btn-erp btn-erp-primary btn-sm" onclick="window.openNewOSModal()">+ Agendar</button>
+                </div>
+                <div class="today-schedule-list" id="dashboard-today-list">
+                  <!-- Preenchido via dashboard.js -->
+                </div>
+              </div>
+
+              <div class="erp-card">
+                <div class="erp-card-header">
+                  <h3 class="erp-card-title">📊 Receitas por Categoria de Serviço</h3>
+                </div>
+                <div id="revenue-chart-container">
+                  <!-- Barras dinâmicas -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Coluna Direita: Estoque Crítico & Atalhos -->
+            <div>
+              <div class="erp-card">
+                <div class="erp-card-header">
+                  <h3 class="erp-card-title">📦 Alerta de Estoque de Móveis</h3>
+                </div>
+                <div id="low-stock-container">
+                  <!-- Itens com estoque baixo -->
+                </div>
+              </div>
+
+              <div class="erp-card" style="background: linear-gradient(145deg, #141720, #1b1e2a); border-color: var(--primary-glow);">
+                <h3 class="erp-card-title" style="color: var(--primary); margin-bottom: 12px;">⚡ Ações Rápidas MONTAXX</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  <button class="btn-erp btn-erp-outline" style="justify-content: flex-start;" onclick="window.openNewOSModal()">
+                    📝 Cadastrar Ordem de Serviço
+                  </button>
+                  <button class="btn-erp btn-erp-outline" style="justify-content: flex-start;" onclick="document.querySelector('[data-view=\'view-quotes\']').click()">
+                    📋 Criar Proposta Comercial para Cliente
+                  </button>
+                  <button class="btn-erp btn-erp-outline" style="justify-content: flex-start;" onclick="window.openNewTransactionModal('expense')">
+                    ⛽ Lançar Despesa (Combustível / Insumos)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 2. VIEW ORDENS DE SERVIÇO ================= -->
+        <section class="view-panel" id="view-os">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <div class="os-view-switch">
+              <button class="btn-erp btn-erp-primary btn-sm" id="btn-view-kanban">Quadro Kanban</button>
+              <button class="btn-erp btn-erp-outline btn-sm" id="btn-view-table">Visualização em Tabela</button>
+            </div>
+            <button class="btn-erp btn-erp-primary btn-sm" onclick="window.openNewOSModal()">
+              + Nova Ordem de Serviço
+            </button>
+          </div>
+
+          <!-- KANBAN BOARD -->
+          <div class="kanban-board" id="os-kanban-board">
+            <div class="kanban-col">
+              <div class="kanban-col-header">
+                <span class="kanban-col-title">📅 Agendados</span>
+                <span class="badge-count" id="badge-count-agendado">0</span>
+              </div>
+              <div class="kanban-cards-wrap" id="col-agendado-cards"></div>
+            </div>
+
+            <div class="kanban-col">
+              <div class="kanban-col-header">
+                <span class="kanban-col-title">🚗 Em Deslocamento / Execução</span>
+                <span class="badge-count" id="badge-count-andamento">0</span>
+              </div>
+              <div class="kanban-cards-wrap" id="col-andamento-cards"></div>
+            </div>
+
+            <div class="kanban-col">
+              <div class="kanban-col-header">
+                <span class="kanban-col-title">✅ Concluídos</span>
+                <span class="badge-count" id="badge-count-concluido">0</span>
+              </div>
+              <div class="kanban-cards-wrap" id="col-concluido-cards"></div>
+            </div>
+
+            <div class="kanban-col">
+              <div class="kanban-col-header">
+                <span class="kanban-col-title">❌ Cancelados</span>
+                <span class="badge-count" id="badge-count-cancelado">0</span>
+              </div>
+              <div class="kanban-cards-wrap" id="col-cancelado-cards"></div>
+            </div>
+          </div>
+
+          <!-- TABLE VIEW (Alternativa) -->
+          <div class="erp-card" id="os-table-view" style="display: none;">
+            <div class="table-responsive">
+              <table class="erp-table">
+                <thead>
+                  <tr>
+                    <th>OS ID</th>
+                    <th>Cliente</th>
+                    <th>Serviço</th>
+                    <th>Data / Hora</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="os-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 3. VIEW MÓVEIS & ESTOQUE ================= -->
+        <section class="view-panel" id="view-furniture">
+          <div class="erp-card">
+            <div class="erp-card-header">
+              <div>
+                <h3 class="erp-card-title">Catálogo & Estoque de Móveis à Venda</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Mantenha o controle de custos, preços de venda, margem de lucro e disponibilidade imediata.</p>
+              </div>
+              <button class="btn-erp btn-erp-primary btn-sm" onclick="window.openNewFurnitureModal()">
+                + Cadastrar Novo Móvel
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="erp-table">
+                <thead>
+                  <tr>
+                    <th>Foto</th>
+                    <th>Código</th>
+                    <th>Nome do Produto</th>
+                    <th>Custo</th>
+                    <th>Preço de Venda</th>
+                    <th>Margem de Lucro</th>
+                    <th>Estoque</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="furniture-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 4. VIEW PROPOSTAS & ORÇAMENTOS ================= -->
+        <section class="view-panel" id="view-quotes">
+          <div class="erp-card">
+            <div class="erp-card-header">
+              <div>
+                <h3 class="erp-card-title">Gerador Profissional de Propostas Comerciais</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Crie propostas timbradas com a marca MONTAXX, envie com 1 clique no WhatsApp ou imprima em PDF.</p>
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <button class="btn-erp btn-erp-primary btn-sm" onclick="window.sendProposalWhatsApp()">
+                  💬 Enviar via WhatsApp
+                </button>
+                <button class="btn-erp btn-erp-outline btn-sm" onclick="window.printProposal()">
+                  🖨️ Imprimir / Salvar PDF
+                </button>
+              </div>
+            </div>
+
+            <div class="form-grid-2" style="margin-bottom: 24px;">
+              <div class="form-group">
+                <label class="form-label" for="quote-client-select">Selecione o Cliente:</label>
+                <select id="quote-client-select" class="form-control"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Validade da Proposta:</label>
+                <input type="text" class="form-control" value="7 dias a contar da emissão" readonly>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h4 style="font-size: 0.95rem; color: var(--primary);">Itens do Orçamento (Serviços e Móveis):</h4>
+                <button type="button" class="btn-erp btn-erp-outline btn-sm" onclick="window.addProposalItem()">+ Adicionar Linha</button>
+              </div>
+              <div id="quote-items-container"></div>
+            </div>
+
+            <div class="form-grid-3" style="background: var(--bg-elevated); padding: 18px; border-radius: var(--radius-sm); align-items: flex-end;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="quote-discount">Desconto Especial (R$):</label>
+                <input type="number" id="quote-discount" class="form-control" value="0" min="0">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="quote-fee">Taxa de Deslocamento / Frete (R$):</label>
+                <input type="number" id="quote-fee" class="form-control" value="0" min="0">
+              </div>
+              <div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">Subtotal: <span id="quote-subtotal-val" style="color: var(--text-primary); font-weight: 700;">R$ 0,00</span></div>
+                <div style="font-size: 1.4rem; font-weight: 900; color: var(--primary);">Total: <span id="quote-total-val">R$ 0,00</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 5. VIEW CLIENTES (CRM) ================= -->
+        <section class="view-panel" id="view-clients">
+          <div class="erp-card">
+            <div class="erp-card-header">
+              <div>
+                <h3 class="erp-card-title">Gestão de Clientes & Histórico</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Contatos diretos, histórico de serviços e endereço com atalhos de GPS.</p>
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <input type="text" id="clients-search-input" class="form-control" placeholder="Buscar por nome, telefone ou bairro..." style="width: 260px;">
+                <button class="btn-erp btn-erp-primary btn-sm" onclick="window.openNewClientModal()">+ Novo Cliente</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="erp-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome do Cliente</th>
+                    <th>WhatsApp</th>
+                    <th>Endereço</th>
+                    <th>Histórico / LTV</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="clients-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 6. VIEW CONTROLE FINANCEIRO ================= -->
+        <section class="view-panel" id="view-financial">
+          <div class="stats-row">
+            <div class="stat-card">
+              <div>
+                <div class="stat-title">Total de Receitas (+)</div>
+                <div class="stat-value" id="fin-total-income" style="color: var(--success);">R$ 0,00</div>
+              </div>
+              <div class="stat-icon" style="color: var(--success);">📈</div>
+            </div>
+
+            <div class="stat-card">
+              <div>
+                <div class="stat-title">Total de Despesas (-)</div>
+                <div class="stat-value" id="fin-total-expense" style="color: var(--danger);">R$ 0,00</div>
+              </div>
+              <div class="stat-icon" style="color: var(--danger);">📉</div>
+            </div>
+
+            <div class="stat-card">
+              <div>
+                <div class="stat-title">Saldo Líquido em Caixa</div>
+                <div class="stat-value" id="fin-net-balance">R$ 0,00</div>
+              </div>
+              <div class="stat-icon">💵</div>
+            </div>
+          </div>
+
+          <div class="erp-card">
+            <div class="erp-card-header">
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-erp btn-erp-primary btn-sm fin-filter-btn" data-filter="all">Todos os Lançamentos</button>
+                <button class="btn-erp btn-erp-outline btn-sm fin-filter-btn" data-filter="income">Apenas Receitas (+)</button>
+                <button class="btn-erp btn-erp-outline btn-sm fin-filter-btn" data-filter="expense">Apenas Despesas (-)</button>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-erp btn-erp-primary btn-sm" onclick="window.openNewTransactionModal('income')">+ Nova Receita</button>
+                <button class="btn-erp btn-erp-danger btn-sm" onclick="window.openNewTransactionModal('expense')">- Nova Despesa</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="erp-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Categoria</th>
+                    <th>Descrição</th>
+                    <th>Forma</th>
+                    <th style="text-align: right;">Valor</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="financial-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 7. VIEW CONFIGURAÇÕES & BACKUP ================= -->
+        <section class="view-panel" id="view-settings">
+          <div class="dashboard-grid">
+            <div class="erp-card">
+              <h3 class="erp-card-title" style="margin-bottom: 18px;">🏢 Dados da Empresa MONTAXX</h3>
+              
+              <div class="form-group">
+                <label class="form-label" for="settings-company-name">Nome Comercial:</label>
+                <input type="text" id="settings-company-name" class="form-control">
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="settings-owner-name">Nome do Responsável:</label>
+                  <input type="text" id="settings-owner-name" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="settings-phone">WhatsApp Principal:</label>
+                  <input type="text" id="settings-phone" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="settings-pix">Chave Pix para Propostas:</label>
+                  <input type="text" id="settings-pix" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="settings-city">Região Base de Atendimento:</label>
+                  <input type="text" id="settings-city" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="settings-email">E-mail de Contato:</label>
+                <input type="email" id="settings-email" class="form-control">
+              </div>
+
+              <button class="btn-erp btn-erp-primary" id="btn-save-settings">Salvar Configurações</button>
+            </div>
+
+            <div>
+              <div class="erp-card">
+                <h3 class="erp-card-title" style="margin-bottom: 14px;">💾 Backup e Segurança dos Dados</h3>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 18px;">
+                  Todos os clientes, ordens de serviço, estoque e finanças ficam salvos no navegador. Faça download do backup regularmente para manter seus dados seguros.
+                </p>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <button class="btn-erp btn-erp-outline" id="btn-export-backup" style="justify-content: center;">
+                    📥 Baixar Backup Completo (.JSON)
+                  </button>
+
+                  <label class="btn-erp btn-erp-outline" style="justify-content: center; cursor: pointer;">
+                    📤 Restaurar Backup (.JSON)
+                    <input type="file" id="input-import-backup" accept=".json" style="display: none;">
+                  </label>
+                </div>
+              </div>
+
+              <div class="erp-card" style="border-color: rgba(239, 68, 68, 0.3);">
+                <h3 class="erp-card-title" style="color: var(--danger); margin-bottom: 10px;">⚠️ Dados Demonstrativos</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
+                  Restaura o sistema com exemplos prontos de clientes, ordens de serviço e catálogo inicial.
+                </p>
+                <button class="btn-erp btn-erp-danger btn-sm" id="btn-reset-demo">
+                  Restaurar Dados de Exemplo
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= MODAIS DO SISTEMA ================= -->
+
+  <!-- MODAL: Nova Ordem de Serviço -->
+  <div class="erp-modal-overlay" id="modal-new-os">
+    <div class="erp-modal-card">
+      <div class="erp-modal-header">
+        <h3 class="erp-modal-title">⚡ Nova Ordem de Serviço</h3>
+        <button class="erp-modal-close" data-modal-close>✕</button>
+      </div>
+      <div class="erp-modal-body">
+        <div class="form-group">
+          <label class="form-label" for="new-os-client">Cliente:</label>
+          <select id="new-os-client" class="form-control"></select>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="new-os-service">Tipo de Serviço:</label>
+            <select id="new-os-service" class="form-control">
+              <option value="Montagem de Móvel">Montagem de Móveis (Guarda-roupa/Cozinha/Mesa)</option>
+              <option value="Instalação de TV & Suporte">Instalação de TV & Suporte</option>
+              <option value="Instalação de Pisos">Instalação de Pisos & Rodapés</option>
+              <option value="Instalação de Acessórios">Instalação de Chuveiro / Luminária / Cortina</option>
+              <option value="Desmontagem e Remontagem">Desmontagem e Remontagem (Mudança)</option>
+              <option value="Venda de Móvel + Montagem">Entrega de Móvel Vendido + Montagem</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-os-price">Valor Acordado (R$):</label>
+            <input type="number" id="new-os-price" class="form-control" placeholder="180.00" step="0.50">
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label class="form-label" for="new-os-date">Data:</label>
+            <input type="date" id="new-os-date" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-os-time">Horário:</label>
+            <input type="time" id="new-os-time" class="form-control" value="09:00">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-os-payment">Forma de Pagto:</label>
+            <select id="new-os-payment" class="form-control">
+              <option value="Pix">Pix</option>
+              <option value="Cartão de Crédito">Cartão de Crédito</option>
+              <option value="Dinheiro">Dinheiro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="new-os-desc">Descrição / Itens a serem montados:</label>
+          <textarea id="new-os-desc" class="form-control" rows="3" placeholder="Ex: Montar roupeiro 6 portas com espelho e fixar suporte articulado de TV na suíte."></textarea>
+        </div>
+      </div>
+      <div class="erp-modal-footer">
+        <button class="btn-erp btn-erp-outline" data-modal-close>Cancelar</button>
+        <button class="btn-erp btn-erp-primary" onclick="window.saveNewOS()">Salvar e Agendar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Detalhes da Ordem de Serviço & Checklist -->
+  <div class="erp-modal-overlay" id="modal-os-detail">
+    <div class="erp-modal-card">
+      <div class="erp-modal-header">
+        <h3 class="erp-modal-title">Detalhes da Ordem de Serviço</h3>
+        <button class="erp-modal-close" data-modal-close>✕</button>
+      </div>
+      <div class="erp-modal-body" id="modal-os-detail-body">
+        <!-- Preenchido via os-manager.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Registrar Venda de Móvel -->
+  <div class="erp-modal-overlay" id="modal-sell-furniture">
+    <div class="erp-modal-card">
+      <div class="erp-modal-header">
+        <h3 class="erp-modal-title">🛒 Concluir Venda de Móvel</h3>
+        <button class="erp-modal-close" data-modal-close>✕</button>
+      </div>
+      <div class="erp-modal-body">
+        <input type="hidden" id="sale-item-id">
+        
+        <div style="background: var(--bg-elevated); padding: 14px; border-radius: var(--radius-sm); margin-bottom: 18px;">
+          <strong id="sale-item-name" style="font-size: 1.05rem; color: var(--text-primary);"></strong>
+          <div style="display: flex; justify-content: space-between; margin-top: 6px;">
+            <span style="color: var(--primary); font-weight: 800; font-size: 1.2rem;" id="sale-item-price"></span>
+            <span style="color: var(--text-muted); font-size: 0.85rem;" id="sale-stock-left"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sale-client-select">Vender para o Cliente:</label>
+          <select id="sale-client-select" class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sale-payment-method">Forma de Pagamento:</label>
+          <select id="sale-payment-method" class="form-control">
+            <option value="Pix">Pix (À vista)</option>
+            <option value="Cartão de Crédito 10x">Cartão de Crédito em até 10x</option>
+            <option value="Dinheiro">Dinheiro</option>
+          </select>
+        </div>
+
+        <div style="background: rgba(255, 184, 0, 0.08); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary); margin-bottom: 10px;">
+          <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+            <input type="checkbox" id="sale-include-assembly" checked>
+            <strong style="color: var(--text-primary); font-size: 0.9rem;">Incluir montagem e criar Ordem de Serviço na agenda?</strong>
+          </label>
+          <small style="color: var(--text-muted); display: block; margin-top: 4px; margin-left: 24px;">
+            O sistema dará baixa automática no estoque e criará a OS pronta para atendimento.
+          </small>
+        </div>
+      </div>
+      <div class="erp-modal-footer">
+        <button class="btn-erp btn-erp-outline" data-modal-close>Cancelar</button>
+        <button class="btn-erp btn-erp-primary" onclick="window.confirmFurnitureSale()">Confirmar Venda</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Novo Móvel no Catálogo -->
+  <div class="erp-modal-overlay" id="modal-new-furniture">
+    <div class="erp-modal-card">
+      <div class="erp-modal-header">
+        <h3 class="erp-modal-title">+ Cadastrar Novo Móvel no Estoque</h3>
+        <button class="erp-modal-close" data-modal-close>✕</button>
+      </div>
+      <div class="erp-modal-body">
+        <div class="form-group">
+          <label class="form-label" for="new-furniture-name">Nome do Móvel:</label>
+          <input type="text" id="new-furniture-name" class="form-control" placeholder="Ex: Cabeceira Casal Estofada King Size">
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="new-furniture-cat">Categoria:</label>
+            <select id="new-furniture-cat" class="form-control">
+              <option value="Quarto">Quarto</option>
+              <option value="Sala de Estar">Sala de Estar</option>
+              <option value="Cozinha & Jantar">Cozinha & Jantar</option>
+              <option value="Pisos">Pisos & Rodapés</option>
+              <option value="Acessórios">Acessórios & Iluminação</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-furniture-stock">Quantidade em Estoque:</label>
+            <input type="number" id="new-furniture-stock" class="form-control" value="2" min="0">
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label class="form-label" for="new-furniture-cost">Preço de Custo (R$):</label>
+            <input type="number" id="new-furniture-cost" class="form-control" placeholder="400.00" step="0.50">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-furniture-sale">Preço de Venda (R$):</label>
+            <input type="number" id="new-furniture-sale" class="form-control" placeholder="750.00" step="0.50">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-furniture-min">Estoque Mínimo Alerta:</label>
+            <input type="number" id="new-furniture-min" class="form-control" value="1" min="1">
+          </div>
+        </div>
+      </div>
+      <div class="erp-modal-footer">
+        <button class="btn-erp btn-erp-outline" data-modal-close>Cancelar</button>
+        <button class="btn-erp btn-erp-primary" onclick="window.saveNewFurniture()">Salvar Produto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Novo Cliente -->
+  <div class="erp-modal-overlay" id="modal-new-client">
+    <div class="erp-modal-card">
+      <div class="erp-modal-header">
+        <h3 class="erp-modal-title">👤 Cadastrar Novo Cliente</h3>
+        <button class="erp-modal-close" data-modal-close>✕</button>
+      </div>
+      <div class="erp-modal-body">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="new-client-name">Nome Completo:</label>
+            <input type="text" id="new-client-name" class="form-control" placeholder="Ex: Ana Carolina">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-client-phone">WhatsApp / Celular com DDD:</label>
+            <input type="text" id="new-client-phone" class="form-control" placeholder="11988887777">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="new-client-address">Endereço Completo (Rua, Número, Apto):</label>
+          <input type="text" id="new-client-address" class="form-control" placeholder="Ex: Av. Ibirapuera, 1200, Bloco B Apto 51">
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="new-client-neighborhood">Bairro:</label>
+            <input type="text" id="new-client-neighborhood" class="form-control" placeholder="Moema">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-client-type">Tipo de Residência:</label>
+            <select id="new-client-type" class="form-control">
+              <option value="Apartamento (com elevador)">Apartamento (com elevador)</option>
+              <option value="Apartamento (escada)">Apartamento (escada)</option>
+              <option value="Casa térrea">Casa térrea</option>
+              <option value="Sobrado / Condomínio">Sobrado / Condomínio</option>
+              <option value="Comercial / Escritório">Comercial / Escritório</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="new-client-notes">Observações do Cliente:</label>
+          <textarea id="new-client-notes" class="form-control" rows="2" placeholder="Ex: Horário livre pela manhã, paredes de alvenaria."></textarea>
+        </div>
+      </div>
+      <div class="erp-modal-footer">
+        <button class="btn-erp btn-erp-outline" data-modal-close>Cancelar</button>
+        <button class="btn-erp btn-erp-primary" onclick="window.saveNewClient()">Salvar Cliente</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Nova Transação Financeira -->
+  <div class="erp-modal-overlay" id="modal-new-transaction">
+    <div class="erp-modal-card">
+      <div class="erp-modal-header">
+        <h3 class="erp-modal-title">💵 Novo Lançamento Financeiro</h3>
+        <button class="erp-modal-close" data-modal-close>✕</button>
+      </div>
+      <div class="erp-modal-body">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="new-tx-type">Tipo de Movimento:</label>
+            <select id="new-tx-type" class="form-control">
+              <option value="income">Receita (+ Entrou)</option>
+              <option value="expense">Despesa (- Saiu)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-tx-amount">Valor (R$):</label>
+            <input type="number" id="new-tx-amount" class="form-control" placeholder="150.00" step="0.50">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="new-tx-category">Categoria:</label>
+            <select id="new-tx-category" class="form-control">
+              <option value="Montagem de Móveis">Montagem de Móveis</option>
+              <option value="Venda de Móveis">Venda de Móveis</option>
+              <option value="Instalação de Pisos">Instalação de Pisos</option>
+              <option value="Instalação de Acessórios">Instalação de Acessórios</option>
+              <option value="Combustível">Combustível</option>
+              <option value="Ferramentas & Insumos">Ferramentas & Insumos (Parafusos, buchas)</option>
+              <option value="Ajudante / Diária">Ajudante / Diária</option>
+              <option value="Alimentação">Alimentação</option>
+              <option value="Outros">Outros</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="new-tx-method">Forma:</label>
+            <select id="new-tx-method" class="form-control">
+              <option value="Pix">Pix</option>
+              <option value="Cartão">Cartão</option>
+              <option value="Dinheiro">Dinheiro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="new-tx-desc">Descrição / Detalhe:</label>
+          <input type="text" id="new-tx-desc" class="form-control" placeholder="Ex: Abastecimento de gasolina da van">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="new-tx-date">Data do Movimento:</label>
+          <input type="date" id="new-tx-date" class="form-control">
+        </div>
+      </div>
+      <div class="erp-modal-footer">
+        <button class="btn-erp btn-erp-outline" data-modal-close>Cancelar</button>
+        <button class="btn-erp btn-erp-primary" onclick="window.saveNewTransaction()">Gravar Lançamento</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTAINER DE IMPRESSÃO / PDF -->
+  <div id="printable-sheet" class="print-only-sheet"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="js/store.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/os-manager.js"></script>
+  <script src="js/furniture-manager.js"></script>
+  <script src="js/quote-generator.js"></script>
+  <script src="js/client-manager.js"></script>
+  <script src="js/financial.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
