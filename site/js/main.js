@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCatalog();
   initModal();
   initFaq();
+  initGallery();
   initScrollEffects();
 });
 
@@ -199,6 +200,124 @@ function initFaq() {
       const item = btn.closest(".faq-item");
       if (item) item.classList.toggle("open");
     });
+  });
+}
+
+// 6. Galeria de Projetos Executados (filtro por ambiente + lightbox)
+function initGallery() {
+  const grid = document.getElementById("gallery-grid");
+  const lightbox = document.getElementById("gallery-lightbox");
+  if (!grid || !lightbox) return;
+
+  const items = Array.from(grid.querySelectorAll(".gallery-item"));
+  const pills = Array.from(document.querySelectorAll(".gallery-filter-pill"));
+  const emptyMsg = document.getElementById("gallery-empty");
+
+  const lbImg = document.getElementById("lightbox-img");
+  const lbSource = document.getElementById("lightbox-source");
+  const lbTitle = document.getElementById("lightbox-title");
+  const lbDesc = document.getElementById("lightbox-desc");
+  const lbCounter = document.getElementById("lightbox-counter");
+
+  let visible = items.slice();   // itens do filtro ativo (define o prev/next)
+  let current = 0;
+  let lastFocused = null;
+
+  // --- Masonry: altura de cada card a partir da proporcao real da foto ------
+  // Usa os atributos width/height do <img>, entao nao depende do download e
+  // nao causa salto de layout (CLS).
+  const ROW = 4;      // grid-auto-rows
+  const GAP = 18;     // margin-bottom do card
+
+  function layout() {
+    const cols = getComputedStyle(grid).gridTemplateColumns.split(" ");
+    const colWidth = parseFloat(cols[0]);
+    if (!colWidth) return;
+
+    items.forEach(item => {
+      const img = item.querySelector("img");
+      const w = Number(img.getAttribute("width"));
+      const h = Number(img.getAttribute("height"));
+      if (!w || !h) return;
+      const height = colWidth * (h / w);
+      item.style.gridRowEnd = "span " + Math.ceil((height + GAP) / ROW);
+    });
+  }
+
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(layout, 150);
+  });
+  layout();
+
+  // --- Filtro por ambiente -------------------------------------------------
+  function applyFilter(filter) {
+    visible = items.filter(item => {
+      const match = filter === "all" || item.dataset.ambiente === filter;
+      item.hidden = !match;
+      return match;
+    });
+    if (emptyMsg) emptyMsg.hidden = visible.length > 0;
+  }
+
+  pills.forEach(pill => {
+    pill.addEventListener("click", () => {
+      pills.forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      applyFilter(pill.dataset.filter);
+    });
+  });
+
+  // --- Lightbox ------------------------------------------------------------
+  function show(index) {
+    if (!visible.length) return;
+    current = (index + visible.length) % visible.length;
+    const item = visible[current];
+
+    lbSource.srcset = item.dataset.fullWebp || "";
+    lbImg.src = item.dataset.full;
+    lbImg.width = item.dataset.fullW || "";
+    lbImg.height = item.dataset.fullH || "";
+    lbImg.alt = item.dataset.titulo + " — projeto executado pela MONTAXX";
+    lbTitle.textContent = item.dataset.titulo;
+    lbDesc.textContent = item.dataset.desc;
+    lbCounter.textContent = (current + 1) + " / " + visible.length;
+  }
+
+  function open(index) {
+    lastFocused = document.activeElement;
+    show(index);
+    lightbox.classList.add("open");
+    document.body.classList.add("menu-locked");
+    document.getElementById("lightbox-close").focus();
+  }
+
+  function close() {
+    lightbox.classList.remove("open");
+    document.body.classList.remove("menu-locked");
+    lbImg.src = "";
+    lbSource.srcset = "";
+    if (lastFocused) lastFocused.focus();
+  }
+
+  items.forEach(item => {
+    item.addEventListener("click", () => open(visible.indexOf(item)));
+  });
+
+  document.getElementById("lightbox-close").addEventListener("click", close);
+  document.getElementById("lightbox-prev").addEventListener("click", () => show(current - 1));
+  document.getElementById("lightbox-next").addEventListener("click", () => show(current + 1));
+
+  lightbox.addEventListener("click", e => {
+    if (e.target === lightbox) close();
+  });
+
+  document.addEventListener("keydown", e => {
+    if (!lightbox.classList.contains("open")) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowLeft") show(current - 1);
+    else if (e.key === "ArrowRight") show(current + 1);
   });
 }
 
